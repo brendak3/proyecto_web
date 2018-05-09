@@ -39,3 +39,41 @@ class Product(models.Model):
 
     def __str__(self):
         return self.nombre_producto
+
+class Sastrerias(models.Model):
+    Nombre = models.CharField(max_length=30)
+    Localizacion = models.CharField(max_length=40)
+
+    def __str__(self):
+        return self.Nombre
+
+
+class Citas(models.Model):
+    CitaFecha = models.DateField()
+    usuario = models.ForeignKey(User,on_delete=models.CASCADE)
+    LugarCita = models.ForeignKey(Sastrerias,on_delete=models.CASCADE)
+    CitaHora = models.CharField(choices=(("hora1",("08:00:00")),
+                                        ("hora2",("09:00:00")),
+                                        ("hora3",("10:00:00")),
+                                        ("hora4",("11:00:00")),
+                                        ("hora5",("12:00:00")),
+                                        ("hora6",("13:00:00")),
+                                        ("hora7",("14:00:00")),
+                                        ("hora8",("15:00:00")),
+                                        ("hora9",("16:00:00")),
+                                        ("hora10",("17:00:00")),
+                                        ("hora11",("18:00:00"))),default =1,max_length=9)
+
+class Orders(models.Model):
+    nombre_producto = models.ManyToManyField(Product,blank=True,default=1)
+    precioTotal = models.DecimalField(max_digits=6,decimal_places=2)
+    Purchase_at = models.DateTimeField(auto_now_add=True,null=True)
+    purchaser = models.ForeignKey(User,on_delete=models.CASCADE,default=1)
+    tx = models.CharField(max_length=250,default="1")
+    status = models.CharField(max_length=20,default="SINPAGAR")
+
+class Purchase(models.Model):
+    resource = models.ForeignKey(Orders,default=1,on_delete=models.CASCADE)
+    purchaser = models.ForeignKey(User,on_delete=models.CASCADE)
+    Purchase_at = models.DateTimeField(auto_now_add=True)
+    tx = models.CharField(max_length=250)

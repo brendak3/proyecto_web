@@ -17,6 +17,8 @@ from django.contrib import admin
 from django.urls import path, re_path
 from django.contrib.auth import views as auth_views # Para usar login y logout
 from pagina import views
+from pagina.views import modulocitas,desplegarcitas,citasdescripcion,sucursalesv,mostrarpedidos,pedidosdescripcion
+from pagos.views import purchased
 # Importar las vistas genericas ofrecidas por django para resetear contraseña
 from django.contrib.auth.views import (
     password_reset,
@@ -29,6 +31,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', auth_views.login, {'template_name': 'pagina/login.html'}, name = 'login'),
     path('logout/', auth_views.logout, {'template_name':'pagina/logout.html'}, name='logout'),
+    path('catalogo/',views.catalogo,name='catalogo'),
     re_path('home/', views.home, name = 'home_view'),
     path('register/', views.signup_user_view, name = 'register_view'),
     path('profile/', views.view_profile, name = "profile_view"),
@@ -42,9 +45,17 @@ urlpatterns = [
     name = 'password_reset_confirm'),
     re_path(r'^password_reset_complete/$', password_reset_complete, {'template_name':'reset/password_reset_complete.html',},
     name = 'password_reset_complete'),
-    path('carrito/mostrar/', views.show, name='mostrar_carrito_view'),
+    re_path(r'^carrito/mostrar/$', views.show, name='mostrar_carrito_view'),
     re_path(r'^carrito/agregar/$',views.add, name='agregar_carrito_view'),
     re_path(r'^carrito/remover/$',views.remove, name='agregar_carrito_view'),
-
-
+    re_path(r'citas/(?P<id>\d+)/$',modulocitas,name='modulocitas'),
+    re_path(r'citasdescripcion/(?P<id>\d+)/$',citasdescripcion,name='modulocitas'),
+    re_path(r'Pedidosdescripcion/(?P<id>\d+)/$',pedidosdescripcion,name='pedidosdescripcion'),
+    path('desplegarcitas/',desplegarcitas),
+    path('mostrarpedidos/',mostrarpedidos),
+    path('sucursales/',sucursalesv),
+    re_path(r'^articulo/info/$', views.info, name='articulo_info'),
+    path('pago/', views.pagoCompletado, name='pago_view'),
+    re_path(r'^purchased/(?P<id>\d+)/$',purchased),
+    path('carrito/eliminar/', views.eliminarCarrito, name='eliminarCarrito_view')
 ]
