@@ -2,15 +2,53 @@
 {% block title %} Citas - Sastreria Beltran {% endblock %}
 {% block content %}
 
-<form method="POST">
-{% csrf_token %}
-<p>Horas laborales: 8:00AM - 6:00PM </p>
-<p>Dias laborales Lunes-Sabado </p>
-{{form.as_p}}
+<div class="container">
+  <h3>Agende su cita con nosotros</h3>
+  <p>Horas laborales: 8:00AM - 6:00PM </p>
+  <p>Días laborales de Lunes a Sábado </p>
+  <form method="POST">
+  {% csrf_token %}
+  {{form.as_p}}
 
-<input type="submit" name="Register" value="Registrar">
-<input type="reset" name="Cancel" value="Borrar">
-<p><a href="/paypaltest/">Clic para regresar al inicio</a></p>
+
+
+  <!--<button type="submit" class="btn waves-effect waves-light" name="Registrar"> Registrar
+    <i class="material-icons right">event</i>
+  </button>-->
+
+  <button data-target="modal1" class="btn modal-trigger" name="Registrar"> Registrar
+    <i class="material-icons right">event</i>
+  </button>
+
+  <button type="submit" class="btn waves-effect waves-light" name="Borrar"> Borrar
+    <i class="material-icons right">delete</i>
+  </button>
+  <div class="modal" id="modal1">
+    <div class="modal-content">
+      <h4>Advertencia</h4>
+      <p>¿Está seguro que quiere esa fecha?</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">No, gracias</a>
+      <button type="submit" class="btn waves-effect waves-light" name="button">Agendar Cita</button>
+    </div>
+  </div>
+  </form>
+  </div>
+</div>
+<br>
+<script>
+  $(document).ready(function(){
+    $('label[for="id_citahora"]').html('Seleccione hora: ');
+    $('label[for="id_citafecha_month"]').html('Seleccione una fecha: ');
+    $('label[for="id_lugarcita"]').html('Seleccione en que sucursal: ');
+  });
+  $(document).ready(function(){
+    $('select').formSelect();
+    $('.modal').modal();
+  });
+
+</script>
 
 {% endblock %}
 
